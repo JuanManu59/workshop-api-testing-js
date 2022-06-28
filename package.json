@@ -24,12 +24,14 @@
   "homepage": "https://github.com/JuanManu59/workshop-api-testing-js#readme",
   "devDependencies": {
     "chai": "^4.3.6",
-    "http-status-codes": "^2.2.0",
-    "mocha": "^10.0.0",
-    "mochawesome": "^7.1.3",
+    "chai-subset": "^1.6.0",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.26.0",
+    "http-status-codes": "^2.2.0",
+    "md5": "^2.3.0",
+    "mocha": "^10.0.0",
+    "mochawesome": "^7.1.3"
   },
   "dependencies": {
     "axios": "^0.27.2"
