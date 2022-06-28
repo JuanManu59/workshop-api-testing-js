@@ -100,7 +100,7 @@ describe('GET methods', () => {
           md5downloadedReadme = md5(downloadedReadme.data);
         });
 
-        it('Verify readme download', async () => {
+        it('Verify readme download', () => {
           expect(downloadedReadme.status).to.equal(StatusCodes.OK);
           expect(md5downloadedReadme).to.equal('497eb689648cbbda472b16baaee45731');
         });
