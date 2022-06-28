@@ -17,7 +17,7 @@ const user = {
 };
 
 const jasmineRepository = {
-  full_name: 'aperdomob/jasmine-json-report',
+  fullName: 'aperdomob/jasmine-json-report',
   private: false,
   description: 'A Simple Jasmine JSON Report'
 };
@@ -44,23 +44,23 @@ describe('GET methods', () => {
     serviceHypermedia = await axios.get(`${path}`);
   });
 
-  it('User verification', async () => {
+  it('User verification', () => {
     expect(serviceHypermedia.status).to.equal(StatusCodes.OK);
     expect(serviceHypermedia.data.name).to.equal(user.name);
     expect(serviceHypermedia.data.company).to.equal(user.company);
     expect(serviceHypermedia.data.location).to.equal(user.location);
   });
 
-  describe('GET methods', () => {
+  describe('Hypermedia methods', () => {
     before(async () => {
       repositories = await axios.get(`${path}/repos`);
       const repositoriesData = repositories.data;
       jasmineReportRepository = repositoriesData.find(({ name }) => name === 'jasmine-json-report');
     });
 
-    it('Repository Content Verification', async () => {
+    it('Repository Content Verification', () => {
       expect(repositories.status).to.equal(StatusCodes.OK);
-      expect(jasmineReportRepository.full_name).to.equal(jasmineRepository.full_name);
+      expect(jasmineReportRepository.full_name).to.equal(jasmineRepository.fullName);
       expect(jasmineReportRepository.private).to.equal(jasmineRepository.private);
       expect(jasmineReportRepository.description).to.equal(jasmineRepository.description);
     });
@@ -73,7 +73,7 @@ describe('GET methods', () => {
         md5downloaded = md5(downloadedRepo.data);
       });
 
-      it('Verify repository download', async () => {
+      it('Verify repository download', () => {
         expect(downloadedRepo.status).to.equal(StatusCodes.OK);
         expect(md5downloaded).to.equal('408fe7c00b0f184a0c2bd5bdf4cff55e');
       });
@@ -84,7 +84,8 @@ describe('GET methods', () => {
         repositoryContent = await axios.get(`${jasmineReportRepository.url}/contents/`);
         readmeData = repositoryContent.data.find(({ name }) => name === 'README.md');
       });
-      it('Verify the content of the README.md', async () => {
+
+      it('Verify the content of the README.md', () => {
         expect(repositoryContent.status).to.equal(StatusCodes.OK);
         expect(readmeData).to.containSubset({
           name: readme.name,
@@ -93,7 +94,7 @@ describe('GET methods', () => {
         });
       });
 
-      describe('download_url', () => {
+      describe('Method to download the readme', () => {
         before(async () => {
           downloadedReadme = await axios.get(`${readmeData.download_url}`);
           md5downloadedReadme = md5(downloadedReadme.data);
