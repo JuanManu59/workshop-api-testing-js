@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const { StatusCodes } = require('http-status-codes');
 
 const path = 'https://api.github.com/user/following/aperdomob';
-const token = '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';
+const token = '';
 
 let response;
 let followingList;
