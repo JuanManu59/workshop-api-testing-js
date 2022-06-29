@@ -16,7 +16,7 @@ const myIssue = {
 };
 
 const bodyIssue = {
-  body: 'Im having a problem with this.'
+  body: 'Im having a problem with this'
 };
 
 const instance = axios.create({
