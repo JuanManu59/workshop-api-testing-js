@@ -6,7 +6,6 @@ const path = 'https://api.github.com/user';
 const token = process.env.ACCESS_TOKEN;
 
 let response;
-const reposCount = false;
 let repositories;
 let myRepo;
 let issue;
@@ -28,15 +27,14 @@ const instance = axios.create({
 describe('Post and patch methods', () => {
   before(async () => {
     response = await instance.get(`${path}`);
-    expect(response.data.public_repos).to.be.above(0);
   });
 
   it('Verify the service', () => {
     expect(response.status).to.equal(StatusCodes.OK);
-    expect(reposCount).to.equal(true);
+    expect(response.data.public_repos).to.be.above(0);
   });
 
-  describe.only('Verify the list of repositories', () => {
+  describe('Verify the list of repositories', () => {
     before(async () => {
       repositories = await instance.get(`${response.data.repos_url}`);
       myRepo = repositories.data.find(({ name }) => name === 'workshop-api-testing-js');
