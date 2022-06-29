@@ -6,7 +6,7 @@ const path = 'https://api.github.com/user';
 const token = process.env.ACCESS_TOKEN;
 
 let response;
-let reposCount = false;
+const reposCount = false;
 let repositories;
 let myRepo;
 let issue;
@@ -28,9 +28,7 @@ const instance = axios.create({
 describe('Post and patch methods', () => {
   before(async () => {
     response = await instance.get(`${path}`);
-    if (response.data.public_repos > 0) {
-      reposCount = true;
-    }
+    expect(response.data.public_repos).to.be.above(0);
   });
 
   it('Verify the service', () => {
@@ -38,7 +36,7 @@ describe('Post and patch methods', () => {
     expect(reposCount).to.equal(true);
   });
 
-  describe('Verify the list of repositories', () => {
+  describe.only('Verify the list of repositories', () => {
     before(async () => {
       repositories = await instance.get(`${response.data.repos_url}`);
       myRepo = repositories.data.find(({ name }) => name === 'workshop-api-testing-js');
@@ -46,7 +44,7 @@ describe('Post and patch methods', () => {
 
     it('Repository Content Verification', () => {
       expect(repositories.status).to.equal(StatusCodes.OK);
-      expect(myRepo).not.to.equal(null);
+      expect(myRepo).not.to.equal(undefined);
     });
 
     describe('Verify the service to create an issue', () => {
