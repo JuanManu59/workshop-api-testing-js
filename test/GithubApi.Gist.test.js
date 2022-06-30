@@ -32,18 +32,14 @@ let gistsCreated;
 let gistsDeleted;
 let error;
 
-describe('Gist', () => {
+describe.only('Gist', () => {
   before(async () => {
     response = await instance.post(`${path}/gists`, myGist);
   });
 
   it('Verify the creation of a gist', () => {
     expect(response.status).to.equal(StatusCodes.CREATED);
-    expect(response.data).to.containSubset({
-      description: myGist.description,
-      private: myGist.private,
-      body: myGist.body
-    });
+    expect(response.data).to.containSubset(myGist);
   });
 
   describe('Method to find a gist', () => {
