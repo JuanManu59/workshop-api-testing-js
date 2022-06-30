@@ -10,12 +10,14 @@ chai.use(chaiSubset);
 const path = 'https://api.github.com';
 const token = process.env.ACCESS_TOKEN;
 
+const myPromise = 'new Promise((resolve) => {resolve(response);})';
+
 const myGist = {
   description: 'Example of a gist',
   public: true,
   files: {
-    'README.md': {
-      content: 'Hello World'
+    'prueba.js': {
+      content: myPromise
     }
   }
 };
@@ -26,8 +28,9 @@ const instance = axios.create({
 });
 
 let response;
-let gistsPath;
-let resultgistsPath;
+let gistsCreated;
+let gistsDeleted;
+let error;
 
 describe('Gist', () => {
   before(async () => {
@@ -43,35 +46,37 @@ describe('Gist', () => {
     });
   });
 
-  describe.only('Method to find a gist', () => {
+  describe('Method to find a gist', () => {
     before(async () => {
-      gistsPath = response.data.owner.gists_url;
-      resultgistsPath = gistsPath.replace('{/gist_id}', `/${response.data.id}`);
-      gistsList = await instance.get(resultgistsPath);
+      gistsCreated = await instance.get(response.data.url);
     });
 
     it('Verify that the created gist exists', () => {
-      expect(gistsList.status).to.equal(StatusCodes.OK);
+      expect(gistsCreated.status).to.equal(StatusCodes.OK);
     });
 
-    describe.only('Method to delete a gist', () => {
-        before(async () => {
-          gistsList = await instance.delete(resultgistsPath);
-        });
-    
-        it('Verify that the gist is removed', () => {
-          expect(gistsList.status).to.equal(StatusCodes.OK);
-        });
+    describe('Method to delete a gist', () => {
+      before(async () => {
+        gistsDeleted = await instance.delete(response.data.url);
       });
 
-      describe.only('Method to delete a gist', () => {
-        before(async () => {
-            gistsList = await instance.get(resultgistsPath);
-          });
-      
-          it('Verify that the created gist exists', () => {
-            expect(gistsList.status).to.equal(StatusCodes.OK);
-          });
+      it('Verify that the gist is removed', () => {
+        expect(gistsDeleted.status).to.equal(StatusCodes.NO_CONTENT);
       });
+    });
+
+    describe('Method to find my gist', () => {
+      before(async () => {
+        try {
+          await instance.get(response.data.url);
+        } catch (e) {
+          error = e;
+        }
+      });
+
+      it('Verify that the created gist no exists', () => {
+        expect(error.response.status).to.equal(StatusCodes.NOT_FOUND);
+      });
+    });
   });
 });
