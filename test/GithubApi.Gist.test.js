@@ -32,7 +32,7 @@ let gistsCreated;
 let gistsDeleted;
 let error;
 
-describe.only('Gist', () => {
+describe('Gist', () => {
   before(async () => {
     response = await instance.post(`${path}/gists`, myGist);
   });
