@@ -7,6 +7,17 @@ const path = 'https://api.github.com';
 let response;
 
 describe('Github user list', () => {
+  describe('Service to find all users', () => {
+    before(async () => {
+      response = await axios.get(`${path}/users`);
+    });
+
+    it('should contain 30 users by default paging', () => {
+      expect(response.status).to.equal(StatusCodes.OK);
+      expect(response.data.length).to.equal(30);
+    });
+  });
+
   describe('Service to find 10 users', () => {
     before(async () => {
       response = await axios.get(`${path}/users`, { params: { per_page: 10 } });
