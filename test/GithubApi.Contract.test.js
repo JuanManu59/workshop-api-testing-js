@@ -1,7 +1,6 @@
 const axios = require('axios');
-
 const chai = require('chai');
-//  importan chai-json-schema  npm install --save-dev chai-json-schema
+
 const { expect } = chai;
 const chaiJson = require('chai-json-schema');
 const { listPublicEventsSchema } = require('../schema/ListPublicEvents.schema');
